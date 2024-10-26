@@ -16,7 +16,7 @@ public class SearchItemService {
     }
 
     public List<SearchItem> getSearchItems() throws Exception {
-        Optional<List<SearchItem>> searchitems = searchItemRepo.getSearchItems();
-        return searchitems.get();
+        List<SearchItem> searchItems = searchItemRepo.findAll();
+        return searchItems;
     }
 }

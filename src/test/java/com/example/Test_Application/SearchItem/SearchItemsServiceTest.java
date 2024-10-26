@@ -28,14 +28,14 @@ public class SearchItemsServiceTest {
                 new SearchItem(1L, "searchTerm1"),
                 new SearchItem(2L, "searchTerm2")
         );
-        Optional<List<SearchItem>> searchItemsList = Optional.of(searchItems);
+        List<SearchItem> searchItemsList = searchItems;
 
-        when(searchItemRepo.getSearchItems()).thenReturn(searchItemsList);
+        when(searchItemRepo.findAll()).thenReturn(searchItemsList);
 
-        Optional<List<SearchItem>> foundSearchItems = searchItemRepo.getSearchItems();
+        List<SearchItem> foundSearchItems = searchItemRepo.findAll();
 
         assertThat(foundSearchItems).isEqualTo(searchItemsList);
 
-        verify(searchItemRepo).getSearchItems();
+        verify(searchItemRepo).findAll();
     }
 }
