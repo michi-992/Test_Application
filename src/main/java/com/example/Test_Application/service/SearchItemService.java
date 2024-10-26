@@ -18,6 +18,10 @@ public class SearchItemService {
 
     public List<SearchItem> getSearchItems() throws SearchItemListNotFoundException {
         List<SearchItem> searchItems = searchItemRepo.findAll();
+
+        if(searchItems.isEmpty()) {
+            throw new SearchItemListNotFoundException();
+        }
         return searchItems;
     }
 }
