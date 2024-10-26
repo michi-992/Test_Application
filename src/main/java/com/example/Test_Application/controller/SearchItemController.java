@@ -2,9 +2,8 @@ package com.example.Test_Application.controller;
 
 import com.example.Test_Application.model.SearchItem;
 import com.example.Test_Application.service.SearchItemService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +19,11 @@ public class SearchItemController {
     @GetMapping("/searchItems")
     public List<SearchItem> getSearchItems() throws Exception {
         return searchItemService.getSearchItems();
+    }
+
+    @PostMapping("/searchItems/add")
+    public ResponseEntity<SearchItem> addSearchItem(@RequestBody SearchItem searchItem) {
+        SearchItem savedSearchItem = searchItemService.addSearchItem(searchItem);
+        return ResponseEntity.ok(savedSearchItem);
     }
 }
