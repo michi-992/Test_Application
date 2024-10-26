@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.Test_Application.controller.SearchItemController;
+import com.example.Test_Application.exceptions.SearchItemListNotFoundException;
 import com.example.Test_Application.model.SearchItem;
 import com.example.Test_Application.service.SearchItemService;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,16 @@ public class SearchItemsControllerTest {
         ResultActions result = mockMvc.perform(get("/searchItems"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));
+
+        verify(searchItemService).getSearchItems();
+    }
+
+    @Test
+    public void testGetSearchItemsNotFound() throws Exception {
+        when(searchItemService.getSearchItems()).thenThrow(new SearchItemListNotFoundException());
+
+        ResultActions result = mockMvc.perform(get("/searchItems"))
+            .andExpect(status().isNotFound());
 
         verify(searchItemService).getSearchItems();
     }

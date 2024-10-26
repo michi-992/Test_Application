@@ -1,5 +1,6 @@
 package com.example.Test_Application.service;
 
+import com.example.Test_Application.exceptions.SearchItemListNotFoundException;
 import com.example.Test_Application.model.SearchItem;
 import com.example.Test_Application.repository.SearchItemRepository;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class SearchItemService {
         this.searchItemRepo = searchItemRepository;
     }
 
-    public List<SearchItem> getSearchItems() throws Exception {
+    public List<SearchItem> getSearchItems() throws SearchItemListNotFoundException {
         List<SearchItem> searchItems = searchItemRepo.findAll();
         return searchItems;
     }
