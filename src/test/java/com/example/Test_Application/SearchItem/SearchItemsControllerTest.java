@@ -3,6 +3,7 @@ package com.example.Test_Application.SearchItem;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -10,6 +11,7 @@ import com.example.Test_Application.controller.SearchItemController;
 import com.example.Test_Application.exceptions.SearchItemListNotFoundException;
 import com.example.Test_Application.model.SearchItem;
 import com.example.Test_Application.service.SearchItemService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,5 +60,23 @@ public class SearchItemsControllerTest {
             .andExpect(status().isNotFound());
 
         verify(searchItemService).getSearchItems();
+    }
+
+    @Test
+    public void testAddSearchItem() throws Exception {
+        SearchItem searchItem = new SearchItem();
+        searchItem.setSearchTerm("adding new search item");
+
+
+        String expectedJson = new ObjectMapper().writeValueAsString(searchItem);
+        when(searchItemService.addSearchItem(any(SearchItem.class))).thenReturn(searchItem);
+
+        ResultActions result = mockMvc.perform(post("/searchItems/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(searchItem)))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson));
+
+        verify(searchItemService).addSearchItem(any(SearchItem.class));
     }
 }

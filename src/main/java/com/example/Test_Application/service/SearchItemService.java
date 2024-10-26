@@ -24,4 +24,8 @@ public class SearchItemService {
         }
         return searchItems;
     }
+
+    public SearchItem addSearchItem(SearchItem searchItem) {
+        return null;
+    }
 }
