@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -53,5 +54,22 @@ public class SearchItemsServiceTest {
         });
 
         verify(searchItemRepo).findAll();
+    }
+
+    @Test
+    public void addSearchItem() {
+        SearchItemService searchItemService = new SearchItemService(searchItemRepo);
+
+        SearchItem searchItem = new SearchItem();
+        searchItem.setSearchTerm("new search item");
+
+        when(searchItemRepo.save(any(SearchItem.class))).thenReturn(searchItem);
+
+        SearchItem result = searchItemService.addSearchItem(searchItem);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getSearchTerm()).isEqualTo("new search item");
+
+        verify(searchItemRepo).save(searchItem);
     }
 }

@@ -26,6 +26,6 @@ public class SearchItemService {
     }
 
     public SearchItem addSearchItem(SearchItem searchItem) {
-        return null;
+        return searchItemRepo.save(searchItem);
     }
 }
