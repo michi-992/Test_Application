@@ -20,6 +20,10 @@ public class SearchItem {
         this.searchTerm = searchTerm;
     }
 
+    public SearchItem(String searchterm) {
+        this.searchTerm = searchterm;
+    }
+
     public Long getId() {
         return this.id;
     }
