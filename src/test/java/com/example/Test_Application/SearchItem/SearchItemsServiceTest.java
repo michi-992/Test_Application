@@ -4,10 +4,14 @@ import com.example.Test_Application.exceptions.SearchItemListNotFoundException;
 import com.example.Test_Application.model.SearchItem;
 import com.example.Test_Application.repository.SearchItemRepository;
 import com.example.Test_Application.service.SearchItemService;
+import com.example.Test_Application.service.SearchItemServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,15 +23,20 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class SearchItemsServiceTest {
     @Mock
     SearchItemRepository searchItemRepo;
 
+    @InjectMocks
+    SearchItemServiceImpl searchItemService;
+
+    @Autowired
+    SearchItemRepository realSearchItemRepo;
+
     @Test
     public void getSearchItems() throws Exception {
-        SearchItemService searchItemService = new SearchItemService(searchItemRepo);
-
         List<SearchItem> searchItems = List.of(
                 new SearchItem(1L, "searchTerm1"),
                 new SearchItem(2L, "searchTerm2")
@@ -45,8 +54,6 @@ public class SearchItemsServiceTest {
 
     @Test
     public void getSearchItemsNotFound() {
-        SearchItemService searchItemService = new SearchItemService(searchItemRepo);
-
         when(searchItemRepo.findAll()).thenReturn(Collections.emptyList());
 
         assertThrows(SearchItemListNotFoundException.class, () -> {
@@ -58,8 +65,6 @@ public class SearchItemsServiceTest {
 
     @Test
     public void addSearchItem() {
-        SearchItemService searchItemService = new SearchItemService(searchItemRepo);
-
         SearchItem searchItem = new SearchItem();
         searchItem.setSearchTerm("new search item");
 
