@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "searchItems")
 public class SearchItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String searchTerm;
