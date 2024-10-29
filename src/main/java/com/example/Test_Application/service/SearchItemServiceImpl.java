@@ -10,7 +10,11 @@ import java.util.List;
 
 @Service
 public class SearchItemServiceImpl implements SearchItemService {
+    @Autowired
     private SearchItemRepository searchItemRepo;
+
+    public SearchItemServiceImpl() { }
+
     public SearchItemServiceImpl(SearchItemRepository searchItemRepo) {
         this.searchItemRepo = searchItemRepo;
     }
